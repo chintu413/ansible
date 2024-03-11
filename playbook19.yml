@@ -1,0 +1,30 @@
+---
+- name: Inplementing handlers
+  hosts: all
+  tasks:
+    - name: Install apche2
+      apt: 
+        name: apache2
+        state: present
+      notify: check url response
+    - name: Edit index.html file
+      copy:
+        content: "Wellcom to my world\n"
+        dest: /var/www/html/index.html
+      notify: restart apache2
+    - name: check url response
+      uri:
+        url: "{{item}}"
+        status_code: 200
+      with_items:
+        - http://172.31.44.140
+        - http://172.31.39.248
+  handlers:
+    - name: restart apache2
+      service:
+        name: apache2
+        state: restarted
+
+
+
+...

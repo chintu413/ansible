@@ -1,0 +1,10 @@
+---
+- name: Create user
+  hosts: all
+  tasks:
+    - name: user creation
+      user:
+        name: Rajesh
+        password: 123
+        home: /home/Rajesh
+... 
