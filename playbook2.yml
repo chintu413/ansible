@@ -1,0 +1,26 @@
+---
+- name: Configuring apache2
+  hosts: all
+  tasks:
+    - name: Install apache2
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+    - name: Edit the index.html file
+      copy:
+        content: "hello world"
+        dest: /var/www/html/index.html
+    - name: Restart apache2
+      service:
+        name: apache2
+        state: restarted
+    - name: Pause for 1 minute
+      pause:
+        minutes: 1
+    - name: Check apache response on server1
+      uri:
+        url: http://172.31.39.248
+    - name: Check apache response on server2
+      uri:
+        url: http://172.31.44.140

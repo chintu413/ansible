@@ -1,0 +1,14 @@
+---
+- name: Create some file and store some data in it
+  hosts: all
+  tasks:
+    - name: Create a file
+      file:
+        name: /tmp/file
+        state: touch
+    - name: Store some content
+      copy:
+        content: "hello"
+        dest: /tmp/file
+
+...

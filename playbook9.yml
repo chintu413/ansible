@@ -1,0 +1,14 @@
+---
+- name: Create users
+  hosts: webserver
+  tasks:
+    - name: User create 
+      user:
+        name: anu
+        password: 123
+        uid: 413
+        shell: /bin/bash
+        home: /home/anu
+        comment: "a Reguller user"
+
+...
