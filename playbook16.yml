@@ -1,0 +1,25 @@
+---
+- name: Configuring apche
+  hosts: all
+  tasks:
+    - name: Install apche2
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+    - name: Edit the index.html file
+      copy:
+        content: "Hello"
+        dest: /var/www/html/index.html
+    - name: Restart apche2
+      service:
+        name: apache2
+        state: restarted
+    - name: Check apache2 url response
+      uri:
+        url: "{{item}}"
+        status_code: 200
+      with_items:
+        - http://172.31.39.248
+        - http://172.31.44.140
+
