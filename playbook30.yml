@@ -1,0 +1,5 @@
+---
+- name: Confiquring apache2/httpd
+  hosts: all
+  tasks:
+    - 

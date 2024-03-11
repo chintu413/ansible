@@ -1,0 +1,42 @@
+---
+- name: Contunues Download and build
+  hosts: devserver
+  tasks:
+    - name: Download the code created by developers
+      git:
+        repo:
+        dest: /tmp/mygit
+    - name: Create an artifact from the above code
+      shell: cd /tmp/mygit;mvn package
+    - name: Fectch the artifact from devserver to controller
+      fetch:
+        src: /tmp/mygit/webapp/target/webapp.war
+        dest: /tmp
+- name: continues Deployment and testing
+  hosts: qa server
+  tasks:
+    - name: Deploy artifact into tomcat on qaserver
+      copy:
+        src: /tmp/Ip/tmp/mygit/webapp/target/webapp.war
+        dest: /var/lib/tomcat9/webapps/testapp.war
+    - name: Restart tomcat
+      service:
+        name: tomat9
+        state: restarted
+    - name: Download the selenium test scripts
+      git:
+        repo: 
+        dest: /tmp/test-git
+
+    - name: Execute the selenimum test script
+      shell: java -jar /tmp/test-git/testing.jar
+
+- name: contunues Delovery
+  hosts: prodserver
+  tasks:
+    - name: Deploy the artifact into prodserver tomcat
+      copy:
+        src: /tmp/ip/tmp/mygit/webapp/target/webapp.war
+        dest: /var/lib/tomcat9/webapps/prodapp.war
+
+...

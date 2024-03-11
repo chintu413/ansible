@@ -1,0 +1,17 @@
+---
+- name: install requird s/w's for ci-cd
+  hots: all
+  tasks:
+    - name: Install s/w's
+      apt:
+        name: "{{item.a}}"
+        state: present
+        update_cache: "{{item.b}}"
+      with_itmes:
+        - {a:git, b: yes}
+        - {a:openjdk-11-jdk, b: no}
+        - {a: tomcat9, b: no}
+
+...
+
+
