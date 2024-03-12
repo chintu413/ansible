@@ -2,4 +2,42 @@
 - name: Confiquring apache2/httpd
   hosts: all
   tasks:
-    - 
+    - name: Install apache2 on ubuntu servers
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install httpd on centos servers
+      apt:
+        name: httpd
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "CentOS"
+
+    - name: Edit the indix.html file
+      copy:
+        content: "Hello"
+        dest: /var/www/html/index.html
+
+    - name: Restart apache2 on ubuntu server
+      service:
+        name: apache2
+        state: restarted
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Restart httpd on centos server
+      service:
+        name: httpd
+        state: restarted
+      when: ansible_distribution == "CentOS"
+
+    - name: Check response on all servers
+      uri:
+        url: "{{item}}"
+
+      with_items:
+        - ip1
+        - ip2
+        - ip3

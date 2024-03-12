@@ -1,0 +1,8 @@
+---
+- name: Call child playbook
+  hosts: all
+  tasks:
+    - name: Ren child play book
+      include_tasks: playbook24a.yml
+
+...
